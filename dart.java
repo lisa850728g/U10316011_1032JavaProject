@@ -98,6 +98,24 @@ public class dart extends JFrame{
 				
 				distance = Math.pow((Math.pow((hitX-(247 + 7.5/Math.pow(2,0.5))),2) + Math.pow((hitY-(247 + 7.5/Math.pow(2,0.5))),2)),0.5);
 				
+				times++;
+				jtfTimes.setText(String.format("%d",times));
+				
+				if(times == 10){
+					dispose();
+					frame1.dispose();
+					JFrame frame2 = new JFrame();
+					frame2.setTitle("ENDING");
+					frame2.add(new JLabel("Score: "));
+					frame2.add(jtfScore);
+					jtfScore.setText(String.format("%d",score));
+					frame2.setLayout(new GridLayout(1,2));
+					frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frame2.setSize(250,80);
+					frame2.setVisible(true);
+					frame2.setLocationRelativeTo(null);
+				}
+				
 				else if(distance <= 7.5){
 					score += 60;
 					jtfScore.setText(String.format("%d",score));
