@@ -4,7 +4,13 @@ import javax.swing.*;
 import java.awt.Color;
 
 public class dart extends JFrame{
-
+	
+	JPanel indicate = new JPanel();
+	JButton jbtHit = new JButton("Hit");
+	JTextField jtfScore = new JTextField(8);
+	JTextField jtfTimes = new JTextField(8);
+	ImageIcon picture = new ImageIcon("catHit.jpg");
+	JLabel hitPoint = new JLabel(picture);
 	int times = 0;
 	int score;
 	int hitX;
@@ -18,8 +24,6 @@ public class dart extends JFrame{
 	int height = 150;
 	int red, green, blue;
 	Color color;
-	JLabel hitPoint = new JLabel(picture);
-	ImageIcon picture = new ImageIcon("catHit.jpg");
 	
 	public void paint(Graphics g){
 		hitPoint.setBounds(hitX,hitY,10,10);
@@ -68,7 +72,60 @@ public class dart extends JFrame{
 		setLayout(null);
 		getGraphics();
 		
-	
+		indicate.add(jbtHit);
+		indicate.setBounds(180,370,150,40);
+		add(indicate);
+		
+		JFrame frame1 = new JFrame();
+		frame1.setTitle("計分表");
+		frame1.add(new JLabel("Score: "));
+		frame1.add(jtfScore);
+		frame1.add(new JLabel("Times: "));
+		frame1.add(jtfTimes);
+		jtfScore.setText(String.format("%d",score));
+		frame1.setLayout(new GridLayout(2,2));
+		frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame1.setSize(200,80);
+		frame1.setVisible(true);
+		frame1.setLocationRelativeTo(null);
+
+		jbtHit.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				hitX = (int)(Math.random()*450);
+				hitY = (int)(Math.random()*500);
+				repaint();
+				
+				distance = Math.pow((Math.pow((hitX-(247 + 7.5/Math.pow(2,0.5))),2) + Math.pow((hitY-(247 + 7.5/Math.pow(2,0.5))),2)),0.5);
+				
+				else if(distance <= 7.5){
+					score += 60;
+					jtfScore.setText(String.format("%d",score));
+				}
+				else if(distance > 7.5 && distance <= 25){
+					score += 40;
+					jtfScore.setText(String.format("%d",score));
+				}
+				else if(distance > 25 && distance <= 52.5){
+					score += 20;
+					jtfScore.setText(String.format("%d",score));
+				}
+				else if(distance > 52.5 && distance <= 90){
+					score += 10;
+					jtfScore.setText(String.format("%d",score));
+				}
+				else if(distance > 90 && distance <= 125){
+					score += 5;
+					jtfScore.setText(String.format("%d",score));
+				}
+				else{
+					score += 0;
+					jtfScore.setText(String.format("%d",score));
+				}
+			}
+		});
+		
+		
 	}
 		
 	public static void main(String[] args){
